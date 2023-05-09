@@ -23,7 +23,7 @@ export const DATA = [
   {
     rank: 2,
     img: poster2,
-    title: "슈퍼 마리오 브라더ㅅ",
+    title: "슈퍼 마리오 브라더스",
     year: "2023",
     country: "미국",
     average: "3.4",
@@ -73,7 +73,6 @@ export const DATA = [
   {
     rank: 7,
     img: poster7,
-
     title: "존 윅 4",
     year: "2023",
     country: "미국",
@@ -84,7 +83,7 @@ export const DATA = [
   {
     rank: 8,
     img: poster8,
-    title: "문재인입니다.",
+    title: "문재인입니다",
     year: "2023",
     country: "한국",
     average: "",

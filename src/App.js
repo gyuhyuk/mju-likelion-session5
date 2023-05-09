@@ -1,14 +1,19 @@
 import "./App.css";
-import RandomClass from "./scss/RandomClass";
-import Button from "./scss/Button";
-import Circle from "./styled-components/Circle";
+import Modal from "./components/Modal";
+import { useState } from "react";
+import Main from "./page/Main";
 
 function App() {
+  const [click, setClick] = useState(false);
+
+  const handleLogin = () => {
+    setClick((prev) => !prev);
+  };
+
   return (
     <>
-      <RandomClass>Button</RandomClass>
-      <Button>Button</Button>
-      <Circle />
+      {click && <Modal click={setClick} />}
+      <Main click={handleLogin} />
     </>
   );
 }
