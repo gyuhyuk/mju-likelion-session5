@@ -8,13 +8,24 @@ const Movie = (props) => {
       <MovieBox>
         <MovieImage src={movie.img}></MovieImage>
         <MovieText>
-          <MovieTitle>{movie.title}</MovieTitle>
+          <MovieTitle>
+            {movie.title.length < 25
+              ? movie.title
+              : `${movie.title.slice(0, 19)}...`}
+          </MovieTitle>
           <MovieYear>
             {movie.year} · {movie.country}
           </MovieYear>
-          <MovieScore>평균★{movie.average}</MovieScore>
+          <MovieScore>
+            {movie.average === "" ? null : `평균★${movie.average}`}
+          </MovieScore>
           <MovieAudience>
-            예매율 {movie.percent} · 누적 관객 {movie.audience}명
+            예매율 {movie.percent}
+            {movie.audience === ""
+              ? null
+              : movie.audience > 10000
+              ? `· 누적 관객 ${movie.audience / 10000}만 명`
+              : `· 누적 관객 ${movie.audience}명`}
           </MovieAudience>
         </MovieText>
       </MovieBox>
@@ -51,7 +62,8 @@ const MovieTitle = styled.div`
 `;
 
 const MovieYear = styled.div`
-  color: #838488;
+  color: #292a32;
+  font-weight: 500;
 `;
 
 const MovieScore = styled.div`
