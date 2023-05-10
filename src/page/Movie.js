@@ -6,7 +6,10 @@ const Movie = (props) => {
   return (
     <>
       <MovieBox>
-        <MovieImage src={movie.img}></MovieImage>
+        <MovieImageBox>
+          <MovieRankButton>{movie.rank}</MovieRankButton>
+          <MovieImage src={movie.img}></MovieImage>
+        </MovieImageBox>
         <MovieText>
           <MovieTitle>
             {movie.title.length < 25
@@ -73,4 +76,21 @@ const MovieScore = styled.div`
 
 const MovieAudience = styled.div`
   color: #838388;
+`;
+
+const MovieImageBox = styled.div``;
+
+const MovieRankButton = styled.button`
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: 40px;
+  left: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 900;
 `;
