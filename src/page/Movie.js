@@ -78,7 +78,10 @@ const MovieAudience = styled.div`
   color: #838388;
 `;
 
-const MovieImageBox = styled.div``;
+const MovieImageBox = styled.div`
+  position: relative;
+  z-index: -1;
+`;
 
 const MovieRankButton = styled.button`
   width: 30px;

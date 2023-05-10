@@ -78,7 +78,7 @@ const ExitButton = styled.button`
 const Logo = styled.img`
   height: 40px;
   width: 220px;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 40px;
 `;
 
@@ -177,4 +177,5 @@ const Tip = styled.div`
   align-items: center;
   text-align: center;
   font-weight: bold;
+  margin-bottom: 20px;
 `;
