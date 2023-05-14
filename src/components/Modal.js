@@ -44,6 +44,7 @@ const Modal = ({ click }) => {
 export default Modal;
 
 const BackGround = styled.div`
+  z-index: 2;
   width: 100vw;
   height: 100vh;
   position: fixed;
