@@ -17,9 +17,20 @@ const Details = ({ click }) => {
     <>
       <Header LoginBtn={click}></Header>
       <Section>
-        <ImageSection>
-          <BackImage src={MovieDetail.backimg} />
-        </ImageSection>
+        <Back>
+          <BackImageLeft left={MovieDetail.left}></BackImageLeft>
+          <BackImage backimg={MovieDetail.backimg}>
+            <BackImageLeftSmall
+              leftsmall={MovieDetail.leftsmall}
+            ></BackImageLeftSmall>
+            <BackImageRightSmall
+              rightsmall={MovieDetail.rightsmall}
+            ></BackImageRightSmall>
+          </BackImage>
+
+          <BackImageRight right={MovieDetail.right}></BackImageRight>
+          <All all={MovieDetail.all}></All>
+        </Back>
         <DetailSection>
           <DetailWrapper>
             <MovieImage src={MovieDetail.img} />
@@ -106,18 +117,15 @@ const Section = styled.div`
   align-items: center;
 `;
 
-const ImageSection = styled.div`
+const BackImage = styled.div`
+  position: relative;
+  top: auto;
+  left: auto;
   margin-top: 70px;
-  border-bottom: 1px solid #e3e3e3;
-  display: flex;
-  width: 100vw;
-  height: 400px;
-  justify-content: center;
-`;
-
-const BackImage = styled.img`
   width: 900px;
   height: 400px;
+  background-size: cover;
+  background-image: url(${(props) => props.backimg});
 `;
 
 const DetailSection = styled.div`
@@ -138,6 +146,7 @@ const DetailWrapper = styled.div`
 const MovieImage = styled.img`
   width: 180px;
   height: 280px;
+  border: 2px solid white;
   border-radius: 5px;
   margin-right: 25px;
 `;
@@ -253,10 +262,11 @@ const StarBox = styled.div`
 
 const SecondDetailWrapper = styled.div`
   width: 100vw;
-  height: 200px;
+  height: 450px;
   border-top: 1.5px solid #e3e3e3;
   display: flex;
   justify-content: center;
+  background-color: #f8f8f8;
 `;
 
 const SecondDetail = styled.div`
@@ -265,6 +275,7 @@ const SecondDetail = styled.div`
   height: 300px;
   border: 2px solid #e3e3e3;
   border-radius: 10px;
+  background-color: white;
 `;
 
 const SecondTitle = styled.div`
@@ -311,4 +322,51 @@ const SecondRunningTime = styled.div`
 
 const SecondDescription = styled.div`
   line-height: 1.7;
+`;
+
+const Back = styled.div`
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  background-color: black;
+  position: relative;
+`;
+
+const BackImageLeft = styled.div`
+  width: 350px;
+  height: 100%;
+  background: ${(props) => props.left};
+`;
+
+const BackImageRight = styled.div`
+  width: 350px;
+  height: 100%;
+  background: ${(props) => props.right};
+`;
+
+const BackImageLeftSmall = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100%;
+  background: ${(props) => props.leftsmall};
+`;
+
+const BackImageRightSmall = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  background: ${(props) => props.rightsmall};
+`;
+
+const All = styled.div`
+  position: absolute;
+  width: 100vw;
+  background-image: ${(props) => props.all};
+  height: 100%;
 `;

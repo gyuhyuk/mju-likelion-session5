@@ -167,6 +167,9 @@ const LinkImg = styled.img`
   margin-right: 20px;
   width: 50px;
   height: 50px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Tip = styled.div`
