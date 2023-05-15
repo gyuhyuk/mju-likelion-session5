@@ -11,7 +11,7 @@ const Details = ({ click }) => {
   const navi = useNavigate();
 
   const goMore = () => {
-    navi(`/details/${MovieDetail.rank}/More/${MovieDetail.rank}`);
+    navi(`/details/${MovieDetail.rank}/More`);
   };
   return (
     <>
@@ -36,8 +36,8 @@ const Details = ({ click }) => {
             <MovieImage src={MovieDetail.img} />
             <DetailTextBox>
               <DetailRank>
-                {`예매순위 ${MovieDetail.rank}위(${MovieDetail.percent})`}{" "}
-                {MovieDetail.audience === ""
+                {`예매순위 ${MovieDetail.rank}위(${MovieDetail.percent})`}
+                {!MovieDetail.audience
                   ? null
                   : MovieDetail.audience > 10000
                   ? `누적 관객 ${MovieDetail.audience / 10000}만명`
@@ -49,9 +49,7 @@ const Details = ({ click }) => {
               </DetailYear>
               <LineBox>{MovieDetail.average === "" ? null : <Line />}</LineBox>
               <DetailScore>
-                {MovieDetail.average === ""
-                  ? null
-                  : `평균 ★${MovieDetail.average}`}
+                {MovieDetail.average && `평균 ★${MovieDetail.average}`}
               </DetailScore>
               <LineBox>{MovieDetail.average === "" ? null : <Line />}</LineBox>
               <DetailRatingWrapper>

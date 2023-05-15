@@ -22,7 +22,7 @@ function App() {
           element={<Details click={handleLogin} />}
         />
         <Route
-          path="details/:rank/More/:rank"
+          path="details/:rank/More"
           element={<More click={handleLogin} />}
         />
       </Routes>
