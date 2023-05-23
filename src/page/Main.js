@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import Header from "./Header";
 import MovieList from "./MovieList";
 
-const Main = ({ click }) => {
+const Main = () => {
   return (
     <>
-      <Header LoginBtn={click}></Header>
       <Section>
         <BoxOffice>
           <RankText>박스오피스 순위</RankText>

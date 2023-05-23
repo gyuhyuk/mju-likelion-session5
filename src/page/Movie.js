@@ -1,19 +1,20 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const Movie = (props) => {
-  const { movie } = props;
+const Movie = ({ movie, rank, movie_id }) => {
   const navigate = useNavigate();
   const goDetails = () => {
-    navigate(`/details/${movie.rank}`);
+    navigate(`/details/${movie_id}/${rank}`);
   };
-
+  console.log(rank);
   return (
     <>
       <MovieBox onClick={goDetails}>
         <MovieImageBox>
-          <MovieRankButton>{movie.rank}</MovieRankButton>
-          <MovieImage src={movie.img}></MovieImage>
+          <MovieRankButton>{rank + 1}</MovieRankButton>
+          <MovieImage
+            src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+          ></MovieImage>
         </MovieImageBox>
         <MovieText>
           <MovieTitle>
@@ -21,20 +22,11 @@ const Movie = (props) => {
               ? movie.title
               : `${movie.title.slice(0, 19)}...`}
           </MovieTitle>
-          <MovieYear>
-            {movie.year} · {movie.country}
-          </MovieYear>
+          <MovieYear>{movie.release_date}</MovieYear>
           <MovieScore>
-            {movie.average === "" ? null : `평균★${movie.average}`}
+            {movie.average === "" ? null : `평균★${movie.vote_average}`}
           </MovieScore>
-          <MovieAudience>
-            예매율 {movie.percent}
-            {movie.audience === ""
-              ? null
-              : movie.audience > 10000
-              ? `· 누적 관객 ${movie.audience / 10000}만 명`
-              : `· 누적 관객 ${movie.audience}명`}
-          </MovieAudience>
+          <MovieAudience>인기도 {movie.popularity}</MovieAudience>
         </MovieText>
       </MovieBox>
     </>

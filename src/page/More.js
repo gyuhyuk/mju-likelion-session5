@@ -1,18 +1,35 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { DATA } from "../assets/Data";
-import Header from "./Header";
 import styled from "styled-components";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-const More = ({ click }) => {
-  const { rank } = useParams();
-  const MovieMore = DATA.filter((item) => item.rank === Number(rank))[0];
+const More = () => {
+  const { id } = useParams();
+  const [MoreList, setMoreList] = useState([]);
+
+  const getDetails = () =>
+    axios
+      .get(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
+        headers: {
+          Authorization: "Bearer " + process.env.REACT_APP_API_KEY,
+        },
+      })
+      .then((json) => {
+        console.log(json.data);
+        setMoreList(json.data);
+      });
+
+  useEffect(() => {
+    getDetails();
+  }, []);
+
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
+
   return (
     <>
-      <Header LoginBtn={click}></Header>
       <Section>
         <FirstBox>
           <Back
@@ -25,31 +42,37 @@ const More = ({ click }) => {
           <InfoBox>
             <InfoText>
               <Korean>원제</Korean>
-              {MovieMore.originalTitle}
+              {MoreList.original_title}
             </InfoText>
             <InfoText>
               <Korean>제작 연도</Korean>
-              {MovieMore.year}
+              {MoreList.release_date}
             </InfoText>
             <InfoText>
               <Korean>국가</Korean>
-              {MovieMore.country}
+              {MoreList.production_countries &&
+                MoreList.production_countries
+                  .map((item) => item.name)
+                  .join(" / ")}
             </InfoText>
             <InfoText>
               <Korean>장르</Korean>
-              {MovieMore.genre}
+              {MoreList.genres
+                ? MoreList.genres.map((genre) => genre.name).join(" / ")
+                : "Loading..."}
             </InfoText>
             <InfoText>
               <Korean>상영시간</Korean>
-              {MovieMore.runningTime}
+              {`${MoreList.runtime}분`}
             </InfoText>
             <InfoText>
               <Korean>연령 등급</Korean>
-              {MovieMore.age}
+              {MoreList.adult ? "청소년 관람불가" : "청소년 관람가능"}
             </InfoText>
             <Content>
               <ContentKor>내용</ContentKor>
-              {MovieMore.description}
+              {`${MoreList.overview} 
+              ${MoreList.tagline}`}
             </Content>
           </InfoBox>
         </SecondBox>

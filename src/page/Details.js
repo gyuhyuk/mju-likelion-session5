@@ -1,107 +1,111 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { DATA } from "../assets/Data";
 import styled from "styled-components";
-import Header from "./Header";
 import { FiStar } from "react-icons/fi";
-
-const Details = ({ click }) => {
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+const Details = () => {
+  const { id } = useParams();
   const { rank } = useParams();
-  const MovieDetail = DATA.filter((item) => item.rank === Number(rank))[0];
+  const [detailList, setDetailList] = useState([]);
+  const getMovie = () => {
+    axios
+      .get(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
+        headers: {
+          Authorization: "Bearer " + process.env.REACT_APP_API_KEY,
+        },
+      })
+      .then((json) => {
+        console.log(json.data);
+        setDetailList(json.data);
+      });
+  };
+
+  useEffect(() => {
+    getMovie();
+  }, []);
 
   const navi = useNavigate();
 
   const goMore = () => {
-    navi(`/details/${MovieDetail.rank}/More`);
+    navi(`/details/${id}/More`);
   };
   return (
-    <>
-      <Header LoginBtn={click}></Header>
-      <Section>
-        <Back>
-          <BackImageLeft left={MovieDetail.left}></BackImageLeft>
-          <BackImage backimg={MovieDetail.backimg}>
-            <BackImageLeftSmall
-              leftsmall={MovieDetail.leftsmall}
-            ></BackImageLeftSmall>
-            <BackImageRightSmall
-              rightsmall={MovieDetail.rightsmall}
-            ></BackImageRightSmall>
-          </BackImage>
-
-          <BackImageRight right={MovieDetail.right}></BackImageRight>
-          <All all={MovieDetail.all}></All>
-        </Back>
-        <DetailSection>
-          <DetailWrapper>
-            <MovieImage src={MovieDetail.img} />
-            <DetailTextBox>
-              <DetailRank>
-                {`예매순위 ${MovieDetail.rank}위(${MovieDetail.percent})`}
-                {!MovieDetail.audience
-                  ? null
-                  : MovieDetail.audience > 10000
-                  ? `누적 관객 ${MovieDetail.audience / 10000}만명`
-                  : `누적 관객 ${MovieDetail.audience}명`}
-              </DetailRank>
-              <DetailTitle>{MovieDetail.title}</DetailTitle>
-              <DetailYear>
-                {MovieDetail.year} · {MovieDetail.genre} · {MovieDetail.country}
-              </DetailYear>
-              <LineBox>{MovieDetail.average === "" ? null : <Line />}</LineBox>
-              <DetailScore>
-                {MovieDetail.average && `평균 ★${MovieDetail.average}`}
-              </DetailScore>
-              <LineBox>{MovieDetail.average === "" ? null : <Line />}</LineBox>
-              <DetailRatingWrapper>
-                <DetailRatingBox>
-                  <DetailRatingText>평가하기</DetailRatingText>
-                  <StarBox>
-                    <FiStar />
-                    <FiStar />
-                    <FiStar />
-                    <FiStar />
-                    <FiStar />
-                  </StarBox>
-                </DetailRatingBox>
-                <ColumnLine></ColumnLine>
-                <DetailExtraBox>
-                  <DetailExtraButtonBox>
-                    <DetailExtra>✚ 보고싶어요</DetailExtra>
-                    <DetailExtra>🖊️ 코멘트</DetailExtra>
-                    <DetailExtra>👁️ 보는중</DetailExtra>
-                    <DetailExtra>・・・ 더보기</DetailExtra>
-                  </DetailExtraButtonBox>
-                </DetailExtraBox>
-              </DetailRatingWrapper>
-            </DetailTextBox>
-          </DetailWrapper>
-        </DetailSection>
-        <SecondDetailWrapper>
-          <SecondDetail>
-            <SecondTitle>
-              <BasicInfo>기본정보</BasicInfo>
-              <More onClick={goMore}>더보기</More>
-            </SecondTitle>
-            <SecondInfo>
-              <SecondOriginalTitle>
-                {MovieDetail.originalTitle}
-              </SecondOriginalTitle>
-              <SecondYear>
-                {MovieDetail.year} · {MovieDetail.country} · {MovieDetail.genre}{" "}
-              </SecondYear>
-              <SecondRunningTime>
-                {MovieDetail.runningTime} · {MovieDetail.age}
-              </SecondRunningTime>
-              <SecondDescription>
-                {MovieDetail.description.length < 145
-                  ? MovieDetail.description
-                  : `${MovieDetail.description.slice(0, 145)}...`}
-              </SecondDescription>
-            </SecondInfo>
-          </SecondDetail>
-        </SecondDetailWrapper>
-      </Section>
-    </>
+    <Section>
+      <Back>
+        <BackImage
+          src={"https://image.tmdb.org/t/p/w500" + detailList.backdrop_path}
+        ></BackImage>
+      </Back>
+      <DetailSection>
+        <DetailWrapper>
+          <MovieImage
+            src={"https://image.tmdb.org/t/p/w500" + detailList.poster_path}
+          />
+          <DetailTextBox>
+            <DetailRank>{`예매순위 ${Number(rank) + 1}위`}</DetailRank>
+            <DetailTitle>{detailList.title}</DetailTitle>
+            <DetailYear>{detailList.release_date}</DetailYear>
+            <div>{detailList.vote_average === "" ? null : <Line />}</div>
+            <DetailScore>
+              {detailList.vote_average &&
+                `평균 ★${detailList.vote_average} (${detailList.vote_count}명)`}
+            </DetailScore>
+            <div>{detailList.average === "" ? null : <Line />}</div>
+            <DetailRatingWrapper>
+              <DetailRatingBox>
+                <DetailRatingText>평가하기</DetailRatingText>
+                <StarBox>
+                  <FiStar />
+                  <FiStar />
+                  <FiStar />
+                  <FiStar />
+                  <FiStar />
+                </StarBox>
+              </DetailRatingBox>
+              <ColumnLine></ColumnLine>
+              <DetailExtraBox>
+                <DetailExtraButtonBox>
+                  <DetailExtra>✚ 보고싶어요</DetailExtra>
+                  <DetailExtra>🖊️ 코멘트</DetailExtra>
+                  <DetailExtra>👁️ 보는중</DetailExtra>
+                  <DetailExtra>・・・ 더보기</DetailExtra>
+                </DetailExtraButtonBox>
+              </DetailExtraBox>
+            </DetailRatingWrapper>
+          </DetailTextBox>
+        </DetailWrapper>
+      </DetailSection>
+      <SecondDetailWrapper>
+        <SecondDetail>
+          <SecondTitle>
+            <BasicInfo>기본정보</BasicInfo>
+            <More onClick={goMore}>더보기</More>
+          </SecondTitle>
+          <SecondInfo>
+            <SecondOriginalTitle>
+              {detailList.original_title}
+            </SecondOriginalTitle>
+            <SecondYear>
+              {detailList.release_date && detailList.release_date.slice(0, 4)} ·{" "}
+              {detailList.original_language} ·{" "}
+              {detailList.genres
+                ? detailList.genres.map((genre) => genre.name).join("/")
+                : "Loading..."}
+            </SecondYear>
+            <SecondRunningTime>
+              {detailList.runtime}분 ·
+              {detailList.adult ? "청소년관람불가" : "청소년 관람가능"}
+            </SecondRunningTime>
+            <SecondDescription>
+              {detailList.overview
+                ? `${detailList.overview.slice(0, 145)}...`
+                : "Loading..."}
+            </SecondDescription>
+          </SecondInfo>
+        </SecondDetail>
+      </SecondDetailWrapper>
+    </Section>
   );
 };
 
@@ -115,7 +119,7 @@ const Section = styled.div`
   align-items: center;
 `;
 
-const BackImage = styled.div`
+const BackImage = styled.img`
   position: relative;
   top: auto;
   left: auto;
@@ -123,7 +127,6 @@ const BackImage = styled.div`
   width: 900px;
   height: 400px;
   background-size: cover;
-  background-image: url(${(props) => props.backimg});
 `;
 
 const DetailSection = styled.div`
@@ -171,8 +174,6 @@ const DetailYear = styled.div`
   margin-bottom: 15px;
   color: #7f7f7f;
 `;
-
-const LineBox = styled.div``;
 
 const Line = styled.hr`
   height: 1px;
@@ -270,7 +271,7 @@ const SecondDetailWrapper = styled.div`
 const SecondDetail = styled.div`
   margin: 30px 380px 0 0;
   width: 750px;
-  height: 300px;
+  height: 400px;
   border: 2px solid #e3e3e3;
   border-radius: 10px;
   background-color: white;
@@ -320,51 +321,12 @@ const SecondRunningTime = styled.div`
 
 const SecondDescription = styled.div`
   line-height: 1.7;
+  margin-right: 10px;
 `;
 
 const Back = styled.div`
   display: flex;
   width: 100vw;
   justify-content: center;
-  background-color: black;
-  position: relative;
-`;
-
-const BackImageLeft = styled.div`
-  width: 350px;
-  height: 100%;
-  background: ${(props) => props.left};
-`;
-
-const BackImageRight = styled.div`
-  width: 350px;
-  height: 100%;
-  background: ${(props) => props.right};
-`;
-
-const BackImageLeftSmall = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100px;
-  height: 100%;
-  background: ${(props) => props.leftsmall};
-`;
-
-const BackImageRightSmall = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 100px;
-  height: 100%;
-  background: ${(props) => props.rightsmall};
-`;
-
-const All = styled.div`
-  position: absolute;
-  width: 100vw;
-  background-image: ${(props) => props.all};
-  height: 100%;
+  border-bottom: 1px solid black;
 `;

@@ -1,13 +1,28 @@
 import Movie from "./Movie";
-import { DATA } from "../assets/Data";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const MovieList = () => {
+  const [List, setList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1", {
+        headers: {
+          Authorization: "Bearer " + process.env.REACT_APP_API_KEY,
+        },
+      })
+      .then((json) => {
+        setList(json.data.results);
+      });
+  }, []);
+
   return (
     <AllMovie>
       <MovieWrapper>
-        {DATA.map((movie, index) => (
-          <Movie movie={movie} key={index} />
+        {List.map((movie, index) => (
+          <Movie movie={movie} rank={index} movie_id={movie.id} />
         ))}
       </MovieWrapper>
     </AllMovie>
