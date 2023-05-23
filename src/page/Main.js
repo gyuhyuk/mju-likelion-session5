@@ -32,10 +32,11 @@ const RankText = styled.div`
   align-items: end;
   font-size: 24px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: -15px;
 `;
 
 const BoxOffice = styled.div`
+  margin-top: 60px;
   width: 1500px;
   height: 600px;
 `;

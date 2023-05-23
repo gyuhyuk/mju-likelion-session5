@@ -1,11 +1,16 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Movie = (props) => {
   const { movie } = props;
+  const navigate = useNavigate();
+  const goDetails = () => {
+    navigate(`/details/${movie.rank}`);
+  };
 
   return (
     <>
-      <MovieBox>
+      <MovieBox onClick={goDetails}>
         <MovieImageBox>
           <MovieRankButton>{movie.rank}</MovieRankButton>
           <MovieImage src={movie.img}></MovieImage>

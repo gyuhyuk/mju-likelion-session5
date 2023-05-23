@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import logo from "../assets/image/icon_logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ LoginBtn }) => {
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate(`/`);
+  };
   return (
     <>
       <HeaderBox>
         <FirstBox>
-          <Logo src={logo} alt="로고"></Logo>
+          <Logo onClick={goHome} src={logo} alt="로고"></Logo>
           <GenreBox>
             <GenreText>영화</GenreText>
             <GenreText>TV</GenreText>
@@ -30,6 +36,9 @@ const Header = ({ LoginBtn }) => {
 export default Header;
 
 const HeaderBox = styled.div`
+  background-color: white;
+  z-index: 2;
+  position: fixed;
   width: 100vw;
   height: 70px;
   display: flex;
