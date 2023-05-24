@@ -5,8 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 const Details = () => {
-  const { id } = useParams();
-  const { rank } = useParams();
+  const { id, rank } = useParams();
   const [detailList, setDetailList] = useState([]);
   const getMovie = () => {
     axios
@@ -16,7 +15,6 @@ const Details = () => {
         },
       })
       .then((json) => {
-        console.log(json.data);
         setDetailList(json.data);
       });
   };
@@ -24,7 +22,6 @@ const Details = () => {
   useEffect(() => {
     getMovie();
   }, []);
-
   const navi = useNavigate();
 
   const goMore = () => {
@@ -34,24 +31,26 @@ const Details = () => {
     <Section>
       <Back>
         <BackImage
-          src={"https://image.tmdb.org/t/p/w500" + detailList.backdrop_path}
+          src={`https://image.tmdb.org/t/p/w500${detailList.backdrop_path}`}
+          alt="배경화면"
         ></BackImage>
       </Back>
       <DetailSection>
         <DetailWrapper>
           <MovieImage
-            src={"https://image.tmdb.org/t/p/w500" + detailList.poster_path}
+            src={`https://image.tmdb.org/t/p/w500${detailList.poster_path}`}
+            alt="포스터 이미지"
           />
           <DetailTextBox>
             <DetailRank>{`예매순위 ${Number(rank) + 1}위`}</DetailRank>
             <DetailTitle>{detailList.title}</DetailTitle>
             <DetailYear>{detailList.release_date}</DetailYear>
-            <div>{detailList.vote_average === "" ? null : <Line />}</div>
+            <div>{detailList.vote_average !== "" && <Line />}</div>
             <DetailScore>
               {detailList.vote_average &&
                 `평균 ★${detailList.vote_average} (${detailList.vote_count}명)`}
             </DetailScore>
-            <div>{detailList.average === "" ? null : <Line />}</div>
+            <div>{detailList.average !== "" && <Line />}</div>
             <DetailRatingWrapper>
               <DetailRatingBox>
                 <DetailRatingText>평가하기</DetailRatingText>

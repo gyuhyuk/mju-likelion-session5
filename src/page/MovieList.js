@@ -6,7 +6,7 @@ import axios from "axios";
 const MovieList = () => {
   const [List, setList] = useState([]);
 
-  useEffect(() => {
+  const getList = () => {
     axios
       .get("https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1", {
         headers: {
@@ -16,13 +16,17 @@ const MovieList = () => {
       .then((json) => {
         setList(json.data.results);
       });
+  };
+
+  useEffect(() => {
+    getList();
   }, []);
 
   return (
     <AllMovie>
       <MovieWrapper>
         {List.map((movie, index) => (
-          <Movie movie={movie} rank={index} movie_id={movie.id} />
+          <Movie movie={movie} key={index} rank={index} movie_id={movie.id} />
         ))}
       </MovieWrapper>
     </AllMovie>

@@ -6,14 +6,15 @@ const Movie = ({ movie, rank, movie_id }) => {
   const goDetails = () => {
     navigate(`/details/${movie_id}/${rank}`);
   };
-  console.log(rank);
+
   return (
     <>
       <MovieBox onClick={goDetails}>
         <MovieImageBox>
           <MovieRankButton>{rank + 1}</MovieRankButton>
           <MovieImage
-            src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt="영화 포스터"
           ></MovieImage>
         </MovieImageBox>
         <MovieText>
@@ -24,7 +25,7 @@ const Movie = ({ movie, rank, movie_id }) => {
           </MovieTitle>
           <MovieYear>{movie.release_date}</MovieYear>
           <MovieScore>
-            {movie.average === "" ? null : `평균★${movie.vote_average}`}
+            {movie.average !== "" && `평균★${movie.vote_average}`}
           </MovieScore>
           <MovieAudience>인기도 {movie.popularity}</MovieAudience>
         </MovieText>

@@ -11,7 +11,7 @@ const Header = ({ LoginBtn }) => {
   return (
     <>
       <HeaderBox>
-        <FirstBox>
+        <BoxBlock>
           <Logo onClick={goHome} src={logo} alt="로고"></Logo>
           <GenreBox>
             <GenreText>영화</GenreText>
@@ -19,15 +19,15 @@ const Header = ({ LoginBtn }) => {
             <GenreText>책</GenreText>
             <GenreText>웹툰</GenreText>
           </GenreBox>
-        </FirstBox>
-        <SecondBox>
+        </BoxBlock>
+        <BoxBlock>
           <Search
             type="text"
             placeholder="🔍  콘텐츠, 인물, 컬렉션, 유저를 검색해보세요."
           ></Search>
           <LoginButton onClick={LoginBtn}>로그인</LoginButton>
           <SignUpButton>회원가입</SignUpButton>
-        </SecondBox>
+        </BoxBlock>
       </HeaderBox>
     </>
   );
@@ -47,7 +47,7 @@ const HeaderBox = styled.div`
   border-bottom: 2px solid #ebebeb;
 `;
 
-const FirstBox = styled.div`
+const BoxBlock = styled.div`
   display: flex;
   align-items: center;
   width: 600px;
@@ -80,8 +80,6 @@ const GenreText = styled.div`
     cursor: pointer;
   }
 `;
-
-const SecondBox = styled(FirstBox)``;
 
 const Search = styled.input`
   width: 350px;
