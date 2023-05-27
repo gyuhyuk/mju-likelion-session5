@@ -6,6 +6,7 @@ import More from "./page/More";
 import Details from "./page/Details";
 import { Route, Routes } from "react-router-dom";
 import Header from "./page/Header";
+import SimilarBox from "./page/SimilarBox";
 function App() {
   const [click, setClick] = useState(false);
   const handleLogin = () => {
@@ -17,8 +18,8 @@ function App() {
       <Header LoginBtn={handleLogin}></Header>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/details/:id/:rank" element={<Details />} />
-        <Route path="details/:id/More" element={<More />} />
+        <Route path="/details/:id" element={<Details />} />
+        <Route path="/more/:id" element={<More />} />
       </Routes>
       {click && <Modal click={setClick} />}
     </>
