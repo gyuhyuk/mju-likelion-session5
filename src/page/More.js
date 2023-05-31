@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 
 const More = () => {
   const { id } = useParams();
-  const [MoreList, setMoreList] = useState([]);
-
+  const [MoreList, setMoreList] = useState({});
+  console.log(MoreList);
   const getDetails = () =>
     axios
       .get(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
