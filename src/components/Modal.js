@@ -44,6 +44,7 @@ const Modal = ({ click }) => {
 export default Modal;
 
 const BackGround = styled.div`
+  z-index: 2;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -166,6 +167,9 @@ const LinkImg = styled.img`
   margin-right: 20px;
   width: 50px;
   height: 50px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Tip = styled.div`

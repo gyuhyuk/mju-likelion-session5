@@ -1,27 +1,33 @@
 import styled from "styled-components";
 import logo from "../assets/image/icon_logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ LoginBtn }) => {
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate(`/`);
+  };
   return (
     <>
       <HeaderBox>
-        <FirstBox>
-          <Logo src={logo} alt="로고"></Logo>
+        <BoxBlock>
+          <Logo onClick={goHome} src={logo} alt="로고"></Logo>
           <GenreBox>
             <GenreText>영화</GenreText>
             <GenreText>TV</GenreText>
             <GenreText>책</GenreText>
             <GenreText>웹툰</GenreText>
           </GenreBox>
-        </FirstBox>
-        <SecondBox>
+        </BoxBlock>
+        <BoxBlock>
           <Search
             type="text"
             placeholder="🔍  콘텐츠, 인물, 컬렉션, 유저를 검색해보세요."
           ></Search>
           <LoginButton onClick={LoginBtn}>로그인</LoginButton>
           <SignUpButton>회원가입</SignUpButton>
-        </SecondBox>
+        </BoxBlock>
       </HeaderBox>
     </>
   );
@@ -30,6 +36,9 @@ const Header = ({ LoginBtn }) => {
 export default Header;
 
 const HeaderBox = styled.div`
+  background-color: white;
+  z-index: 2;
+  position: fixed;
   width: 100vw;
   height: 70px;
   display: flex;
@@ -38,7 +47,7 @@ const HeaderBox = styled.div`
   border-bottom: 2px solid #ebebeb;
 `;
 
-const FirstBox = styled.div`
+const BoxBlock = styled.div`
   display: flex;
   align-items: center;
   width: 600px;
@@ -71,8 +80,6 @@ const GenreText = styled.div`
     cursor: pointer;
   }
 `;
-
-const SecondBox = styled(FirstBox)``;
 
 const Search = styled.input`
   width: 350px;

@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import Header from "./Header";
 import MovieList from "./MovieList";
 
-const Main = ({ click }) => {
+const Main = () => {
   return (
     <>
-      <Header LoginBtn={click}></Header>
       <Section>
         <BoxOffice>
           <RankText>박스오피스 순위</RankText>
@@ -32,10 +30,11 @@ const RankText = styled.div`
   align-items: end;
   font-size: 24px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: -15px;
 `;
 
 const BoxOffice = styled.div`
+  margin-top: 60px;
   width: 1500px;
   height: 600px;
 `;
