@@ -26,7 +26,12 @@ const MovieList = () => {
     <AllMovie>
       <MovieWrapper>
         {List.map((movie, index) => (
-          <Movie movie={movie} key={index} rank={index} movie_id={movie.id} />
+          <Movie
+            movie={movie}
+            key={movie.id}
+            rank={index}
+            movie_id={movie.id}
+          />
         ))}
       </MovieWrapper>
     </AllMovie>

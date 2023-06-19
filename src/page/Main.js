@@ -1,7 +1,32 @@
 import styled from "styled-components";
 import MovieList from "./MovieList";
+import { MovieAtom } from "../atom/MovieAtom";
+import axios from "axios";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 const Main = () => {
+  const [similar, setSimilar] = useRecoilState(MovieAtom);
+
+  const getSimilar = () => {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1`,
+        {
+          headers: {
+            Authorization: "Bearer " + process.env.REACT_APP_API_KEY,
+          },
+        }
+      )
+      .then((json) => {
+        setSimilar(json.data.results);
+      });
+  };
+
+  useEffect(() => {
+    getSimilar();
+  }, []);
+
   return (
     <>
       <Section>

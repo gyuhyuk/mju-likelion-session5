@@ -1,12 +1,18 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { FiStar } from "react-icons/fi";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { MovieAtom } from "../atom/MovieAtom";
+import { useRecoilValue } from "recoil";
+import SimilarBox from "./SimilarBox";
+
 const Details = () => {
-  const { id, rank } = useParams();
+  const { id } = useParams();
   const [detailList, setDetailList] = useState([]);
+  const similarData = useRecoilValue(MovieAtom);
+
   const getMovie = () => {
     axios
       .get(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, {
@@ -21,11 +27,12 @@ const Details = () => {
 
   useEffect(() => {
     getMovie();
-  }, []);
+  }, [id]);
+
   const navi = useNavigate();
 
   const goMore = () => {
-    navi(`/details/${id}/More`);
+    navi(`/more/${id}`);
   };
   return (
     <Section>
@@ -42,7 +49,6 @@ const Details = () => {
             alt="포스터 이미지"
           />
           <DetailTextBox>
-            <DetailRank>{`예매순위 ${Number(rank) + 1}위`}</DetailRank>
             <DetailTitle>{detailList.title}</DetailTitle>
             <DetailYear>{detailList.release_date}</DetailYear>
             <div>{detailList.vote_average !== "" && <Line />}</div>
@@ -75,12 +81,12 @@ const Details = () => {
           </DetailTextBox>
         </DetailWrapper>
       </DetailSection>
-      <SecondDetailWrapper>
-        <SecondDetail>
-          <SecondTitle>
+      <CommonDetailWrapper>
+        <CommonDetail>
+          <CommonTitle>
             <BasicInfo>기본정보</BasicInfo>
             <More onClick={goMore}>더보기</More>
-          </SecondTitle>
+          </CommonTitle>
           <SecondInfo>
             <SecondOriginalTitle>
               {detailList.original_title}
@@ -102,8 +108,18 @@ const Details = () => {
                 : "Loading..."}
             </SecondDescription>
           </SecondInfo>
-        </SecondDetail>
-      </SecondDetailWrapper>
+          <ThirdDetailWrapper>
+            <BasicInfo>추천작</BasicInfo>
+            <SimilarWrapper>
+              {similarData.map((item, index) => (
+                <StyledLink to={`/details/${item.id}`} key={item.id}>
+                  <SimilarBox item={item} key={index} rank={index} />
+                </StyledLink>
+              ))}
+            </SimilarWrapper>
+          </ThirdDetailWrapper>
+        </CommonDetail>
+      </CommonDetailWrapper>
     </Section>
   );
 };
@@ -163,6 +179,7 @@ const DetailRank = styled.div`
 `;
 
 const DetailTitle = styled.div`
+  margin-top: 40px;
   font-size: 40px;
   font-weight: 900;
 `;
@@ -258,25 +275,27 @@ const StarBox = styled.div`
   }
 `;
 
-const SecondDetailWrapper = styled.div`
+const CommonDetailWrapper = styled.div`
   width: 100vw;
-  height: 450px;
+  height: 1750px;
   border-top: 1.5px solid #e3e3e3;
   display: flex;
   justify-content: center;
   background-color: #f8f8f8;
 `;
 
-const SecondDetail = styled.div`
+const CommonDetail = styled.div`
   margin: 30px 380px 0 0;
   width: 750px;
-  height: 400px;
+  height: 1700px;
   border: 2px solid #e3e3e3;
   border-radius: 10px;
   background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
-const SecondTitle = styled.div`
+const CommonTitle = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
@@ -286,7 +305,7 @@ const SecondTitle = styled.div`
 const BasicInfo = styled.div`
   font-size: 23px;
   font-weight: 800;
-  margin-left: 15px;
+  margin-left: 33px;
 `;
 
 const More = styled.button`
@@ -301,7 +320,7 @@ const More = styled.button`
 `;
 
 const SecondInfo = styled.div`
-  margin-left: 15px;
+  margin-left: 33px;
   font-weight: 600;
   color: #4d4d4d;
 `;
@@ -321,6 +340,7 @@ const SecondRunningTime = styled.div`
 const SecondDescription = styled.div`
   line-height: 1.7;
   margin-right: 10px;
+  margin-bottom: 20px;
 `;
 
 const Back = styled.div`
@@ -328,4 +348,28 @@ const Back = styled.div`
   width: 100vw;
   justify-content: center;
   border-bottom: 1px solid black;
+`;
+
+const SimilarWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const ThirdDetailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Movie = ({ movie, rank, movie_id }) => {
   const navigate = useNavigate();
   const goDetails = () => {
-    navigate(`/details/${movie_id}/${rank}`);
+    navigate(`/details/${movie_id}`);
   };
 
   return (
